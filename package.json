@@ -1,0 +1,73 @@
+{
+  "name": "todo-panel",
+  "displayName": "Uppgifter",
+  "description": "En bestaende todo-lista i .claude/todos/ som Claude Code laser och skriver",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "todo",
+          "title": "Uppgifter",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "todo": [
+        {
+          "id": "todo.panel",
+          "name": "Uppgifter"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "todo.add",
+        "title": "Uppgifter: Ny uppgift",
+        "icon": "$(add)"
+      },
+      {
+        "command": "todo.refresh",
+        "title": "Uppgifter: Uppdatera",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "todo.add",
+          "when": "view == todo.panel",
+          "group": "navigation@1"
+        },
+        {
+          "command": "todo.refresh",
+          "when": "view == todo.panel",
+          "group": "navigation@2"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -p . -w",
+    "package": "npx --yes @vscode/vsce package --no-dependencies --allow-missing-repository -o todo-panel.vsix",
+    "deploy": "npm run compile && npm run package && code --install-extension todo-panel.vsix --force"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.7.0"
+  }
+}
