@@ -1,61 +1,61 @@
-# Uppgifter
+# Tasks
 
-En uppgiftslista som ligger i projektet som vanliga markdown-filer, så att både du
-och Claude Code kan läsa och ändra den. Panelen i VS Code renderar katalogen och
-uppdaterar sig när filerna ändras — oavsett vem som ändrade dem.
+A task list that lives in the project as plain markdown files, so that both you
+and Claude Code can read and change it. The VS Code panel renders the directory
+and updates itself when the files change — no matter who changed them.
 
-## Varför inte Todo Tree
+## Why not Todo Tree
 
-Todo Tree är en read-only scanner över `TODO:`-kommentarer i källkod. Den har ingen
-egen state, så den kan inte hålla status, och den tog bort sin filbevakare i
-version 0.0.224 till förmån för polling som är avstängd som standard. Senaste
-versionen är från april 2023.
+Todo Tree is a read-only scanner over `TODO:` comments in source code. It has no
+state of its own, so it cannot hold a status, and it removed its file watcher in
+version 0.0.224 in favour of polling that is disabled by default. The latest
+release is from April 2023.
 
-Det som behövdes här var något agenten kan *skriva* till, och som syns direkt när
-den gör det.
+What was needed here was something the agent can *write* to, and that shows up
+immediately when it does.
 
-## Formatet
+## The format
 
-En fil per uppgift i `.claude/todos/`:
+One file per task in `.claude/todos/`:
 
 ```markdown
 ---
-id: fixa-ripgrep-sokvagen
+id: fix-the-ripgrep-path
 status: open
 created: 2026-09-19
 ---
 
-Sätt todo-tree.ripgrep.ripgrep till /usr/bin/rg.
+Set todo-tree.ripgrep.ripgrep to /usr/bin/rg.
 ```
 
-Tre fält, och rubriken är brödtextens första rad. `status` är `open`, `doing` eller
-`done`.
+Three fields, and the title is the first line of the body. `status` is `open`,
+`doing` or `done`.
 
-Formatet är avsiktligt litet. Allt som går att skriva med en `Edit` på en rad kan
-agenten ändra utan att röra resten av filen, och allt som är läsbart i en diff går
-att granska i en commit.
+The format is deliberately small. Anything that can be written with a
+single-line `Edit` can be changed by the agent without touching the rest of the
+file, and anything readable in a diff can be reviewed in a commit.
 
-## Bygga
+## Building
 
-Kräver Node 24.
+Requires Node 24.
 
 ```bash
 npm install
-npm run deploy      # kompilerar, paketerar och installerar
+npm run deploy      # compiles, packages and installs
 ```
 
-Ladda sedan om fönstret: **Developer: Reload Window**.
+Then reload the window: **Developer: Reload Window**.
 
-F5 fungerar inte i den här uppsättningen, och det finns ingen `launch.json`.
-Värdfönstret är ett WSL-fjärrfönster som startar utan mapp; varken en naken
-sökväg eller `--folder-uri` fick det att öppna projektet, och utan projektrot
-har panelen ingenting att läsa. Konfigurationen togs bort eftersom en trasig
-sådan med en hårdkodad hemsökväg är sämre än ingen alls.
+F5 does not work in this setup, and there is no `launch.json`. The host window is
+a WSL remote window that starts without a folder; neither a bare path nor
+`--folder-uri` got it to open the project, and without a project root the panel
+has nothing to read. The configuration was removed because a broken one with a
+hardcoded home path is worse than none at all.
 
-## Vad som inte finns än
+## Not there yet
 
-- Ingen spegling av Claude Codes levande TodoWrite-lista. Den beror på formatet i
-  sessionens JSONL, som är odokumenterat och lätt att parsa fel. Den väntar tills
-  grunden bevisat sig.
-- Inget sätt att sätta `doing` från panelen. Agenten sätter det; du bockar av.
-- Ingen sortering eller prioritet utöver "äldst först".
+- No mirroring of Claude Code's live TodoWrite list. That depends on the format
+  of the session JSONL, which is undocumented and easy to parse wrong. It waits
+  until the foundation has proven itself.
+- No way to set `doing` from the panel. The agent sets it; you check it off.
+- No sorting or priority beyond "oldest first".
